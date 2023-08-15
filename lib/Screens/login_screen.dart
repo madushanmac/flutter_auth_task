@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Well come to Flutter Firebase",
+                        "Well come to Flutter Auth API APP",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.w500),
                       ),

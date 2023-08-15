@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Provider/sign_in_provider.dart';
 import 'package:flutter_auth/Screens/login_screen.dart';
+import 'package:flutter_auth/models/data_model.dart';
 import 'package:flutter_auth/utils/next_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isLoading = true;
+
   Future getData() async {
     final sp = context.watch<SignInProvider>();
     sp.getDataFromSharedPreferences();
@@ -22,6 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     getData();
+    _getData();
+  }
+
+  DataModel? dataFromAPI;
+
+  _getData() async {
+    try {
+      String url = "https://dummyjson.com/products";
+      http.Response res = await http.get(Uri.parse(url));
+      if (res.statusCode == 200) {
+        dataFromAPI = DataModel.fromJson(json.decode(res.body));
+        _isLoading = false;
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   @override
@@ -31,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.logout,
               color: Colors.grey,
             ),
@@ -51,15 +74,33 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Center(
-          //     child: ElevatedButton(
-          //   onPressed: () {
-          //     sp.userSignout();
-          //     nextScreen(context, const LoginScreen());
-          //   },
-          //   child: Text('SIGNOUT'),
-          // )
-          ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            )
+          : ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.network(
+                        dataFromAPI!.products[index].thumbnail,
+                        width: 100,
+                      ),
+                      Text(dataFromAPI!.products[index].title.toString()),
+                      Text(
+                          "\$${dataFromAPI!.products[index].price.toString()}"),
+                    ],
+                  ),
+                );
+              },
+              itemCount: dataFromAPI!.products.length,
+            ),
     );
   }
 }
