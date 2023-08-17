@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(
             child: Text(
               "${sp.email}",
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             ),
           ),
           IconButton(
@@ -120,28 +120,15 @@ class _HomeScreenState extends State<HomeScreen> {
           : ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => print('Clicked'),
-                  child: Card(
-                    elevation: 4.0,
-                    margin: EdgeInsets.all(16.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.network(
-                            dataFromAPI!.products[index].thumbnail,
-                            width: 100,
-                          ),
-                          Text(dataFromAPI!.products[index].title.toString()),
-                          Text(
-                            "\$${dataFromAPI!.products[index].price.toString()}",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ],
-                      ),
-                    ),
+                return ListTile(
+                  leading: Image.network(
+                    dataFromAPI!.products[index].thumbnail,
+                    width: 100,
+                  ),
+                  title: Text(dataFromAPI!.products[index].title.toString()),
+                  subtitle: Text(
+                    "\$${dataFromAPI!.products[index].price.toString()}",
+                    style: TextStyle(color: Colors.red),
                   ),
                 );
               },
