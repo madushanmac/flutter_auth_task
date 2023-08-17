@@ -127,6 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 100,
                   ),
                   title: Text(dataFromAPI!.products[index].title.toString()),
+                  trailing: Text(
+                    dataFromAPI!.products[index].brand.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: Text(
                     "\$${dataFromAPI!.products[index].price.toString()}",
                     style: const TextStyle(color: Colors.red),
