@@ -53,6 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          Center(
+            child: Text(
+              "${sp.email}",
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
           IconButton(
             icon: const Icon(
               Icons.logout,
