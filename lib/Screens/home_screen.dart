@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text(dataFromAPI!.products[index].title.toString()),
                   subtitle: Text(
                     "\$${dataFromAPI!.products[index].price.toString()}",
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                   onTap: () {
                     // TODO:

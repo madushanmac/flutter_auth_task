@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,13 +7,13 @@ import '../models/data_model.dart';
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
 
-  ProductDetailScreen({required this.product});
+  const ProductDetailScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: Icon(
+          leading: const Icon(
             Icons.arrow_back_sharp,
             size: 30,
             color: Colors.black,
@@ -30,19 +31,33 @@ class ProductDetailScreen extends StatelessWidget {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child:
-                        Image.network(product.thumbnail, fit: BoxFit.cover))),
+            padding: const EdgeInsets.all(10.0),
+            child: CarouselSlider(
+              items: product.images.map((url) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(70.0),
+                        child: Image(image: NetworkImage(url)),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+              options: CarouselOptions(
+                height: 200,
+                autoPlay: true,
+                enlargeCenterPage: true,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               product.title,
-              style: TextStyle(fontSize: 35),
+              style: const TextStyle(fontSize: 35),
             ),
           ),
           Padding(
@@ -61,6 +76,7 @@ class ProductDetailScreen extends StatelessWidget {
                     fontSize: 15,
                     color: Colors.black)),
           ),
+
           // Add more details...
         ],
       ),

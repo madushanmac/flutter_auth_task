@@ -193,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
     await ip.checkInternetConnection();
 
     if (ip.hasInternet == false) {
+      // ignore: use_build_context_synchronously
       openSnackbar(context, "Check your internet Connection", Colors.blue);
       facebookController.reset();
     } else {
@@ -233,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //handel after signin
   handleAfterSignin() {
     Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-      nextScreenReplace(context, HomeScreen());
+      nextScreenReplace(context, const HomeScreen());
     });
   }
 }
