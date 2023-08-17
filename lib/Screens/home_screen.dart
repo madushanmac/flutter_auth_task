@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Provider/sign_in_provider.dart';
 import 'package:flutter_auth/Screens/login_screen.dart';
+import 'package:flutter_auth/Screens/product_details.dart';
 import 'package:flutter_auth/models/data_model.dart';
 import 'package:flutter_auth/utils/next_screen.dart';
 import 'package:provider/provider.dart';
@@ -130,6 +131,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     "\$${dataFromAPI!.products[index].price.toString()}",
                     style: TextStyle(color: Colors.red),
                   ),
+                  onTap: () {
+                    // TODO:
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(
+                                product: dataFromAPI!.products[index],
+                              )),
+                    );
+                  }, // Navigate to detail page
                 );
               },
               itemCount: dataFromAPI!.products.length,
