@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final sp = context.read<SignInProvider>();
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         actions: [
           Center(
@@ -121,34 +122,39 @@ class _HomeScreenState extends State<HomeScreen> {
           : ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    tileColor: Colors.grey[200],
-                    leading: Image.network(
-                      dataFromAPI!.products[index].thumbnail,
-                      width: 100,
-                    ),
-                    title: Text(dataFromAPI!.products[index].title.toString()),
-                    trailing: Text(
-                      dataFromAPI!.products[index].brand.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      "\$${dataFromAPI!.products[index].price.toString()}",
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                    onTap: () {
-                      // TODO:
+                return Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      tileColor: Colors.grey[200],
+                      leading: Image.network(
+                        dataFromAPI!.products[index].thumbnail,
+                        width: 100,
+                      ),
+                      title:
+                          Text(dataFromAPI!.products[index].title.toString()),
+                      trailing: Text(
+                        dataFromAPI!.products[index].brand.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "\$${dataFromAPI!.products[index].price.toString()}",
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      onTap: () {
+                        // TODO:
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProductDetailScreen(
-                                  product: dataFromAPI!.products[index],
-                                )),
-                      );
-                    }, // Navigate to detail page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetailScreen(
+                                    product: dataFromAPI!.products[index],
+                                  )),
+                        );
+                      }, // Navigate to detail page
+                    ),
                   ),
                 );
               },
