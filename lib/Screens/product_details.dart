@@ -15,10 +15,13 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_sharp,
-            size: 30,
+          leading: IconButton(
+            iconSize: 30,
             color: Colors.black,
+            icon: const Icon(Icons.arrow_back_sharp),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           backgroundColor: Colors.grey[300],
           elevation: 8.0,
