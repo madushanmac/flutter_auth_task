@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
 
   Future getData() async {
-    final sp = context.watch<SignInProvider>();
+    final sp = context.read<SignInProvider>();
     sp.getDataFromSharedPreferences();
   }
 
@@ -59,8 +59,39 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.grey,
             ),
             onPressed: () {
-              sp.userSignout();
-              nextScreen(context, const LoginScreen());
+              showDialog(
+                  builder: (context) {
+                    return AlertDialog(
+                        title: const Text("Logout"),
+                        content: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height *
+                                0.1, // Adjust the value as needed
+                          ),
+                          child: Column(children: [
+                            const Text("Do you Really want to logout?"),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    child: const Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                      child: const Text("Logout"),
+                                      onPressed: () {
+                                        sp.userSignout();
+                                        nextScreen(
+                                            context, const LoginScreen());
+                                      })
+                                ])
+                          ]),
+                        ));
+                  },
+                  context: context);
             },
           ),
         ],
